@@ -1,0 +1,19 @@
+.main_img {
+	max-height: 100vh;
+	max-width: 100%;
+}
+
+.list-group-item {
+	cursor: pointer;
+}
+
+.modal {
+	display: block!important;
+}
+
+.modal .main_img {
+	width: 90%;
+	display: block;
+	margin: auto;
+	margin-bottom: 1em;
+}

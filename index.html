@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Buy Guitar</title>
+	<meta charset="utf-8">
+	<link rel="stylesheet" type="text/css" href="css/style.css" />
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+</head>
+<body>
+	
+	<div class="container-fluid pt-5" id="app">
+		<div class="row">
+			<div class="col">
+				<h1>Купи гитару!</h1>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-md-3">
+				<div class="form-group">
+					<label for="search">Выбери свою гитару</label>
+					<input type="text" class="form-control" id="search" v-model="search" placeholder="Фирма, модель...">
+				</div>
+				<hr>
+				<ul class="list-group">
+					<li @click="selectGuitar(index)" v-for="(guitar, index) in filteredGuitars" class="list-group-item list-group-item-action" :class="{'active': selectGuitarIndex === index}">{{ guitar.name }} - {{ guitar.model }}</li>
+				</ul>
+			</div>
+
+			<div class="col-md-9">
+				<div class="row">
+					<div class="col-md-7 text-center mt-3 pl-5">
+						<h2>{{ guitar.name }} {{ guitar.model }}</h2>
+						<img :src="guitar.images" :alt="guitar.name" :title="getInfo" class="rounded main_img">
+					</div>
+					<div class="col-md-5 mt-4 pl-5">
+						<h4>Информация:</h4>
+
+						<ul>
+							<li>Фирма - <strong>{{ guitar.name }}</strong></li>
+							<li>Модель - <strong>{{ guitar.model }}</strong></li>
+							<li>Год - <strong>{{ guitar.year }}</strong></li>
+							<li>Цена - <strong>{{ guitar.price }}</strong></li>
+							<li>Имя владельца - <strong>{{ guitar.owner }}</strong></li>
+						</ul>
+
+						<button class="btn btn-outline-success mr-2" @click="isPhoneVisible = !isPhoneVisible;">{{ showPhone }}</button>
+						<button class="btn btn-primary" @click="isModal = true">Купить</button>
+					</div>
+				</div>
+				
+			</div>
+		</div>
+
+		<div class="row mt-3" v-if="logs.lenght !== 0">
+			<div class="col-md-12">
+				<ul class="list-group">
+					<li v-for="log in logs" :class="{'list-group-item-secondary': log.type === 'cancel', 'list-group-item-success': log.type === 'ok'}" class="list-group-item list-group-item-secondary">{{ log.text }} ({{log.date | date}})</li>
+				</ul>
+			</div>
+		</div>
+
+		<div class="modal fade show" v-if="isModal">
+		  <div class="modal-dialog" role="document">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <h5 class="modal-title">Хотите купить {{ getInfo }}?</h5>
+		        <button type="button" class="close" data-dismiss="modal" aria-label="Close" @click="isModal = !isModal">
+		          <span aria-hidden="true">&times;</span>
+		        </button>
+		      </div>
+		      <div class="modal-body">
+		      		<img :src="guitar.images" :alt="guitar.name" :title="getInfo" class="rounded main_img ">
+			        <ul>
+						<li>Фирма - <strong>{{ guitar.name }}</strong></li>
+						<li>Модель - <strong>{{ guitar.model }}</strong></li>
+						<li>Год - <strong>{{ guitar.year }}</strong></li>
+						<li>Цена - <strong>{{ guitar.price }}</strong></li>
+						<li>Имя владельца - <strong>{{ guitar.owner }}</strong></li>
+					</ul>
+		      </div>
+		      <div class="modal-footer">
+		        <button type="button" class="btn btn-success" @click="newOrder">Купить</button>
+		        <button type="button" class="btn btn-danger" data-dismiss="modal" @click="cancelOrder">Отменить</button>
+		      </div>
+		    </div>
+		  </div>
+		</div>
+
+		<div class="modal-backdrop fade show" v-if="isModal" @click="isModal = !isModal"></div>
+	</div>
+	
+	<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.js"></script>
+	<script src="js/main.js"></script>
+
+</body>
+</html>
